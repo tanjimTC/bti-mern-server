@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const User = require("./models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Blog = require("./models/Blog");
 
 const app = express();
 
@@ -72,6 +73,25 @@ app.post("/binary/user/signup", async (req, res) => {
       email: responseFromDB.email,
       token,
     },
+  });
+});
+
+app.post("/binary/blog/create", async (req, res) => {
+  console.log("req receved ", req.body);
+  const blog = new Blog({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    category: req.body.category,
+    blog: req.body.blog,
+  });
+
+  const responseFromDB = await blog.save();
+
+  res.status(200).json({
+    message: "Blog created successfully",
+    success: true,
+    responseFromDB,
   });
 });
 
