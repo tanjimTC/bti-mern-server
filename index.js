@@ -81,6 +81,8 @@ app.post("/binary/blog/create", async (req, res) => {
   const blog = new Blog({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    blogTitle: req.body.blogTitle,
+    imageUrl: req.body.imageUrl,
     email: req.body.email,
     category: req.body.category,
     blog: req.body.blog,
@@ -92,6 +94,27 @@ app.post("/binary/blog/create", async (req, res) => {
     message: "Blog created successfully",
     success: true,
     responseFromDB,
+  });
+});
+
+app.get("/binary/blog/get", async (req, res) => {
+  const blogs = await Blog.find();
+
+  res.status(200).json({
+    message: "Blogs fetched successfully",
+    success: true,
+    blogs,
+  });
+});
+
+app.get("/binary/blog/get/:id", async (req, res) => {
+  const id = req.params.id;
+  const blog = await Blog.findById(id);
+
+  res.status(200).json({
+    message: "Blog fetched successfully",
+    success: true,
+    blog,
   });
 });
 
